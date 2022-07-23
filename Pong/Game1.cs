@@ -6,6 +6,8 @@ namespace Pong
 {
   public class Game1 : Game
   {
+    Texture2D ballTexture;
+
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
@@ -28,6 +30,7 @@ namespace Pong
       _spriteBatch = new SpriteBatch(GraphicsDevice);
 
       // TODO: use this.Content to load your game content here
+      ballTexture = Content.Load<Texture2D>("ball");
     }
 
     protected override void Update(GameTime gameTime)
@@ -45,6 +48,9 @@ namespace Pong
       GraphicsDevice.Clear(Color.CornflowerBlue);
 
       // TODO: Add your drawing code here
+      _spriteBatch.Begin();
+      _spriteBatch.Draw(ballTexture, new Vector2(0, 0), Color.White);
+      _spriteBatch.End();
 
       base.Draw(gameTime);
     }
