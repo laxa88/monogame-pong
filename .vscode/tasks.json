@@ -16,6 +16,11 @@
         "--configuration",
         "Release"
       ],
+      // "dependsOn": ["debug build"],
+      "presentation": {
+        // Does not focus on `run` window in the Terminal tab
+        "reveal": "silent"
+      },
       "group": "build",
       "problemMatcher": "$msCompile"
     },
@@ -30,35 +35,12 @@
         // Do not generate summary otherwise it leads to duplicate errors in Problems panel
         "/consoleloggerparameters:NoSummary"
       ],
-      "group": "build",
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": "run",
-      "command": "dotnet",
-      "type": "shell",
-      "args": [
-        "run",
-        "Program.cs"
-        // https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-run
-        // For quick debugging only. Does not respect additional `build` arguments.
-      ],
-      // Runs this command by default when using CTRL + SHIFT + B
-      "group": {
-        "kind": "build",
-        // "isDefault": true
-      },
-      "options": {
-        // The folder for Program.cs needs to be same as Pong.csproj for run to succeed
-        "cwd": "Pong"
-      },
-      // Always run 'build' task before 'run'
-      // "dependsOn": ["debug build"],
       "presentation": {
         // Does not focus on `run` window in the Terminal tab
         "reveal": "silent"
       },
+      "group": "build",
       "problemMatcher": "$msCompile"
-    },
+    }
   ]
 }
