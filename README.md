@@ -12,7 +12,7 @@ Refer to `.vscode` folder
 - CSharpier `v1.2.4`
 - Monogame Content Builder `v0.0.4`
 
-Additionally, if OmniSharp doesn't make work, make sure the `dotnet` SDK is up-to-date. As of writing, it was `.NET 6.0 SDK (v6.0.302)`
+Additionally, if OmniSharp doesn't work, make sure the `dotnet` SDK is up-to-date. As of writing, it was `.NET 6.0 SDK (v6.0.302)`
 
 ## Settings
 
