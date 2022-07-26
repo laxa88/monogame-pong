@@ -71,13 +71,14 @@ namespace Pong
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
             ballTexture = Content.Load<Texture2D>("ball");
 
             _texture = new Texture2D(GraphicsDevice, 1, 1);
             var data = new Color[1];
             data[0] = Color.White;
             _texture.SetData(data);
+
+            DrawStripes();
         }
 
         protected override void Update(GameTime gameTime)
@@ -116,23 +117,12 @@ namespace Pong
             base.Update(gameTime);
         }
 
-        protected override void Draw(GameTime gameTime)
+        private void DrawStripes()
         {
             GraphicsDevice.SetRenderTarget(_doubleBuffer);
             GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin();
-            _spriteBatch.Draw(
-                ballTexture,
-                ballPosition,
-                null,
-                Color.White,
-                0f,
-                new Vector2(ballTexture.Width / 2, ballTexture.Height / 2),
-                Vector2.One,
-                SpriteEffects.None,
-                0f
-            );
             for (int i = 0; i < 31; i++)
             {
                 _spriteBatch.Draw(
@@ -147,12 +137,28 @@ namespace Pong
                 );
             }
             _spriteBatch.End();
+        }
 
+        protected override void Draw(GameTime gameTime)
+        {
             GraphicsDevice.SetRenderTarget(null);
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp);
+
             _spriteBatch.Draw(_doubleBuffer, _renderRectangle, Color.White);
+            _spriteBatch.Draw(
+                ballTexture,
+                ballPosition,
+                null,
+                Color.White,
+                0f,
+                new Vector2(ballTexture.Width / 2, ballTexture.Height / 2),
+                Vector2.One,
+                SpriteEffects.None,
+                0f
+            );
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
