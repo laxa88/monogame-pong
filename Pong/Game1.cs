@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -12,32 +13,71 @@ namespace Pong
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private RenderTarget2D _doubleBuffer;
+        private Rectangle _renderRectangle;
+        private Texture2D _texture;
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            // this.TargetElapsedTime = new TimeSpan(333333);
+            Window.AllowUserResizing = true;
         }
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            _doubleBuffer = new RenderTarget2D(GraphicsDevice, 640, 480);
+
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.IsFullScreen = false;
+            _graphics.ApplyChanges();
+
+            Window.ClientSizeChanged += OnWindowSizeChange;
+            OnWindowSizeChange(null, null);
+
             ballPosition = new Vector2(
                 _graphics.PreferredBackBufferWidth / 2,
                 _graphics.PreferredBackBufferHeight / 2
             );
+
             ballSpeed = 300f;
 
             base.Initialize();
+        }
+
+        private void OnWindowSizeChange(object sender, EventArgs e)
+        {
+            var width = Window.ClientBounds.Width;
+            var height = Window.ClientBounds.Height;
+
+            if (height < width / (float)_doubleBuffer.Width * _doubleBuffer.Height)
+            {
+                width = (int)(height / (float)_doubleBuffer.Height * _doubleBuffer.Width);
+            }
+            else
+            {
+                height = (int)(width / (float)_doubleBuffer.Width * _doubleBuffer.Height);
+            }
+
+            var x = (Window.ClientBounds.Width - width) / 2;
+            var y = (Window.ClientBounds.Height - height) / 2;
+            _renderRectangle = new Rectangle(x, y, width, height);
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
             ballTexture = Content.Load<Texture2D>("ball");
+
+            _texture = new Texture2D(GraphicsDevice, 1, 1);
+            var data = new Color[1];
+            data[0] = Color.White;
+            _texture.SetData(data);
         }
 
         protected override void Update(GameTime gameTime)
@@ -78,9 +118,9 @@ namespace Pong
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.SetRenderTarget(_doubleBuffer);
+            GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
             _spriteBatch.Begin();
             _spriteBatch.Draw(
                 ballTexture,
@@ -93,6 +133,26 @@ namespace Pong
                 SpriteEffects.None,
                 0f
             );
+            for (int i = 0; i < 31; i++)
+            {
+                _spriteBatch.Draw(
+                    _texture,
+                    new Rectangle(
+                        _doubleBuffer.Width / 2,
+                        i * _doubleBuffer.Height / 31,
+                        2,
+                        _doubleBuffer.Height / 62
+                    ),
+                    Color.White
+                );
+            }
+            _spriteBatch.End();
+
+            GraphicsDevice.SetRenderTarget(null);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(_doubleBuffer, _renderRectangle, Color.White);
             _spriteBatch.End();
 
             base.Draw(gameTime);
