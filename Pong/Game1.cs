@@ -29,6 +29,7 @@ namespace Pong
 
         protected override void Initialize()
         {
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
             _doubleBuffer = new RenderTarget2D(GraphicsDevice, 640, 480);
 
             _graphics.PreferredBackBufferWidth = 1280;
@@ -70,7 +71,6 @@ namespace Pong
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
             ballTexture = Content.Load<Texture2D>("ball");
 
             _texture = new Texture2D(GraphicsDevice, 1, 1);
