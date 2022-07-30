@@ -2,6 +2,33 @@
 
 This is a Monogame "Hello World" project, structured VS code environment.
 
+## To-dos
+
+- Background (stripes)
+  - [ ] draw stripes
+  - [ ] set boundaries when window resizes
+
+- Ball
+  - [ ] ball constantly moves
+  - [ ] ball bounces off all sides of screen
+  - [ ] ball bounces off paddle depending on angle from center
+
+- Paddle
+  - [ ] paddle only moves up and down
+  - [ ] paddle must not move out of screen
+  - [ ] paddle can be controlled by 2 players
+
+- Round Start
+  - [ ] (get ready) pause game at round start
+  - [ ] (round start) unpause game after 2 seconds
+
+- Round End
+  - [ ] round ends when ball touches left or right side
+  - [ ] calculate score
+  - [ ] play end-round sound
+  - [ ] reset to Round Start
+
+
 ## Compilation
 
 Refer to `.vscode` folder
