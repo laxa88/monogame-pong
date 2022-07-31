@@ -7,15 +7,13 @@ namespace Pong
 {
     public class Game1 : Game
     {
-        Texture2D ballTexture;
-        Vector2 ballPosition;
-        float ballSpeed;
-
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private RenderTarget2D _doubleBuffer;
         private Rectangle _renderRectangle;
         private Texture2D _texture;
+
+        private Ball _ball;
 
         public Game1()
         {
@@ -23,7 +21,6 @@ namespace Pong
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-            // this.TargetElapsedTime = new TimeSpan(333333);
             Window.AllowUserResizing = true;
         }
 
@@ -40,12 +37,7 @@ namespace Pong
             Window.ClientSizeChanged += OnWindowSizeChange;
             OnWindowSizeChange(null, null);
 
-            ballPosition = new Vector2(
-                _graphics.PreferredBackBufferWidth / 2,
-                _graphics.PreferredBackBufferHeight / 2
-            );
-
-            ballSpeed = 300f;
+            _ball = new Ball(this, _graphics, _spriteBatch);
 
             base.Initialize();
         }
@@ -71,8 +63,6 @@ namespace Pong
 
         protected override void LoadContent()
         {
-            ballTexture = Content.Load<Texture2D>("ball");
-
             _texture = new Texture2D(GraphicsDevice, 1, 1);
             var data = new Color[1];
             data[0] = Color.White;
@@ -89,30 +79,7 @@ namespace Pong
             )
                 Exit();
 
-            // TODO: Add your update logic here
-            var kstate = Keyboard.GetState();
-
-            if (kstate.IsKeyDown(Keys.Up))
-                ballPosition.Y -= ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (kstate.IsKeyDown(Keys.Down))
-                ballPosition.Y += ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (kstate.IsKeyDown(Keys.Left))
-                ballPosition.X -= ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (kstate.IsKeyDown(Keys.Right))
-                ballPosition.X += ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (ballPosition.X > _graphics.PreferredBackBufferWidth - ballTexture.Width / 2)
-                ballPosition.X = _graphics.PreferredBackBufferWidth - ballTexture.Width / 2;
-            else if (ballPosition.X < ballTexture.Width / 2)
-                ballPosition.X = ballTexture.Width / 2;
-
-            if (ballPosition.Y > _graphics.PreferredBackBufferHeight - ballTexture.Height / 2)
-                ballPosition.Y = _graphics.PreferredBackBufferHeight - ballTexture.Height / 2;
-            else if (ballPosition.Y < ballTexture.Height / 2)
-                ballPosition.Y = ballTexture.Height / 2;
+            _ball.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -145,20 +112,8 @@ namespace Pong
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp);
-
             _spriteBatch.Draw(_doubleBuffer, _renderRectangle, Color.White);
-            _spriteBatch.Draw(
-                ballTexture,
-                ballPosition,
-                null,
-                Color.White,
-                0f,
-                new Vector2(ballTexture.Width / 2, ballTexture.Height / 2),
-                Vector2.One,
-                SpriteEffects.None,
-                0f
-            );
-
+            _ball.Draw(gameTime);
             _spriteBatch.End();
 
             base.Draw(gameTime);
