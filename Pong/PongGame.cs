@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Pong
 {
-    public class Game1 : Game
+    public class PongGame : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -15,7 +15,7 @@ namespace Pong
         private Court _court;
         private Ball _ball;
 
-        public Game1()
+        public PongGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -30,6 +30,9 @@ namespace Pong
         protected override void Initialize()
         {
             base.Initialize();
+
+            // Note: Doesn't work if you set in constructor
+            Window.Title = "My Pong Game";
 
             // Initialize variables first
             _graphics.PreferredBackBufferWidth = 1280;
