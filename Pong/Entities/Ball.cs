@@ -32,7 +32,7 @@ namespace Pong
             _texture = this.Game.Content.Load<Texture2D>("ball");
         }
 
-        override public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Court court)
         {
             // TODO: Add your update logic here
             var kstate = Keyboard.GetState();
@@ -49,13 +49,13 @@ namespace Pong
             if (kstate.IsKeyDown(Keys.Right))
                 _position.X += _speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (_position.X > _graphics.PreferredBackBufferWidth - _texture.Width / 2)
-                _position.X = _graphics.PreferredBackBufferWidth - _texture.Width / 2;
+            if (_position.X > court.width - _texture.Width / 2)
+                _position.X = court.width - _texture.Width / 2;
             else if (_position.X < _texture.Width / 2)
                 _position.X = _texture.Width / 2;
 
-            if (_position.Y > _graphics.PreferredBackBufferHeight - _texture.Height / 2)
-                _position.Y = _graphics.PreferredBackBufferHeight - _texture.Height / 2;
+            if (_position.Y > court.height - _texture.Height / 2)
+                _position.Y = court.height - _texture.Height / 2;
             else if (_position.Y < _texture.Height / 2)
                 _position.Y = _texture.Height / 2;
 

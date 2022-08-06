@@ -8,6 +8,16 @@ namespace Pong
         private RenderTarget2D _renderTarget;
         private Texture2D _texture;
 
+        public int width
+        {
+            get { return _renderTarget.Width; }
+        }
+
+        public int height
+        {
+            get { return _renderTarget.Height; }
+        }
+
         public Court(
             Game game,
             GraphicsDeviceManager graphics,

@@ -89,7 +89,7 @@ namespace Pong
                 Exit();
             }
 
-            _ball.Update(gameTime);
+            _ball.Update(gameTime, _court);
 
             base.Update(gameTime);
         }
@@ -98,7 +98,7 @@ namespace Pong
         {
             // Target buffer screen (original resolution)
             GraphicsDevice.SetRenderTarget(_renderBuffer);
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // Draw everything game-related on this buffer screen.
             _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp);
@@ -108,7 +108,7 @@ namespace Pong
 
             // Target main window, reset background colour
             GraphicsDevice.SetRenderTarget(null);
-            GraphicsDevice.Clear(Color.Red);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // Draw the buffer screen onto the main window,
             // resized with PointClamp to create pixel-perfect effect.
