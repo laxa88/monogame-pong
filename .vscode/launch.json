@@ -5,12 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug run",
+      "name": "Debug and run",
       "type": "coreclr",
       "request": "launch",
 
       // Requisite executions from tasks.json
-      // "preLaunchTask": "build debug",
+      "preLaunchTask": "build debug",
 
       // If you have changed target frameworks, make sure to update the program path.
       "program": "${workspaceFolder}/Pong/bin/Debug/netcoreapp3.1/Pong.dll",

@@ -41,21 +41,23 @@
       },
       "group": "build",
       "problemMatcher": "$msCompile"
-    },
-    {
-      "label": "build debug and run",
-      "command": "dotnet",
-      "type": "shell",
-      "args": ["run", "Program.cs"],
-      "options": {
-        "cwd": "Pong"
-      },
-      "presentation": {
-        // Does not focus on `run` window in the Terminal tab
-        "reveal": "silent"
-      },
-      "group": "build",
-      "problemMatcher": "$msCompile"
     }
+    // Not needed because we can use preLaunchTask in launch.json,
+    // but keeping this here for reference.
+    // {
+    //   "label": "build debug and run",
+    //   "command": "dotnet",
+    //   "type": "shell",
+    //   "args": ["run", "Program.cs"],
+    //   "options": {
+    //     "cwd": "Pong"
+    //   },
+    //   "presentation": {
+    //     // Does not focus on `run` window in the Terminal tab
+    //     "reveal": "silent"
+    //   },
+    //   "group": "build",
+    //   "problemMatcher": "$msCompile"
+    // }
   ]
 }
