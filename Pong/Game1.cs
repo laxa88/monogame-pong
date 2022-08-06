@@ -9,10 +9,10 @@ namespace Pong
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private RenderTarget2D _doubleBuffer;
+        private RenderTarget2D _renderBuffer;
         private Rectangle _renderRectangle;
-        private Texture2D _texture;
 
+        private Court _court;
         private Ball _ball;
 
         public Game1()
@@ -22,24 +22,34 @@ namespace Pong
             IsMouseVisible = true;
 
             Window.AllowUserResizing = true;
+
+            // Don't initialize local variables here because Monogame stuff
+            // hasn't been initialized yet, e.g. GraphicsDevice
         }
 
         protected override void Initialize()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _doubleBuffer = new RenderTarget2D(GraphicsDevice, 640, 480);
+            base.Initialize();
 
+            // Initialize variables first
             _graphics.PreferredBackBufferWidth = 1280;
             _graphics.PreferredBackBufferHeight = 720;
             _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
 
-            Window.ClientSizeChanged += OnWindowSizeChange;
-            OnWindowSizeChange(null, null);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _renderBuffer = new RenderTarget2D(GraphicsDevice, 640, 480);
+
+            _court = new Court(this, _graphics, _spriteBatch, 640, 480);
+            _court.Initialize();
 
             _ball = new Ball(this, _graphics, _spriteBatch);
+            _ball.Initialize();
 
-            base.Initialize();
+            // Add callbacks
+
+            Window.ClientSizeChanged += OnWindowSizeChange;
+            OnWindowSizeChange(null, null);
         }
 
         private void OnWindowSizeChange(object sender, EventArgs e)
@@ -47,13 +57,13 @@ namespace Pong
             var width = Window.ClientBounds.Width;
             var height = Window.ClientBounds.Height;
 
-            if (height < width / (float)_doubleBuffer.Width * _doubleBuffer.Height)
+            if (height < width / (float)_renderBuffer.Width * _renderBuffer.Height)
             {
-                width = (int)(height / (float)_doubleBuffer.Height * _doubleBuffer.Width);
+                width = (int)(height / (float)_renderBuffer.Height * _renderBuffer.Width);
             }
             else
             {
-                height = (int)(width / (float)_doubleBuffer.Width * _doubleBuffer.Height);
+                height = (int)(width / (float)_renderBuffer.Width * _renderBuffer.Height);
             }
 
             var x = (Window.ClientBounds.Width - width) / 2;
@@ -63,12 +73,10 @@ namespace Pong
 
         protected override void LoadContent()
         {
-            _texture = new Texture2D(GraphicsDevice, 1, 1);
-            var data = new Color[1];
-            data[0] = Color.White;
-            _texture.SetData(data);
+            // Load global content here if necessary
 
-            DrawStripes();
+            // Note that this is protected, so LoadContent within GameObjects
+            // should be invoked within themselves whenever necessary.
         }
 
         protected override void Update(GameTime gameTime)
@@ -77,43 +85,35 @@ namespace Pong
                 GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
                 || Keyboard.GetState().IsKeyDown(Keys.Escape)
             )
+            {
                 Exit();
+            }
 
             _ball.Update(gameTime);
 
             base.Update(gameTime);
         }
 
-        private void DrawStripes()
-        {
-            GraphicsDevice.SetRenderTarget(_doubleBuffer);
-            GraphicsDevice.Clear(Color.Black);
-
-            _spriteBatch.Begin();
-            for (int i = 0; i < 31; i++)
-            {
-                _spriteBatch.Draw(
-                    _texture,
-                    new Rectangle(
-                        _doubleBuffer.Width / 2,
-                        i * _doubleBuffer.Height / 31,
-                        2,
-                        _doubleBuffer.Height / 62
-                    ),
-                    Color.White
-                );
-            }
-            _spriteBatch.End();
-        }
-
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.SetRenderTarget(null);
+            // Target buffer screen (original resolution)
+            GraphicsDevice.SetRenderTarget(_renderBuffer);
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            // Draw everything game-related on this buffer screen.
             _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp);
-            _spriteBatch.Draw(_doubleBuffer, _renderRectangle, Color.White);
+            _court.Draw(gameTime);
             _ball.Draw(gameTime);
+            _spriteBatch.End();
+
+            // Target main window, reset background colour
+            GraphicsDevice.SetRenderTarget(null);
+            GraphicsDevice.Clear(Color.Red);
+
+            // Draw the buffer screen onto the main window,
+            // resized with PointClamp to create pixel-perfect effect.
+            _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp);
+            _spriteBatch.Draw(_renderBuffer, _renderRectangle, Color.White);
             _spriteBatch.End();
 
             base.Draw(gameTime);

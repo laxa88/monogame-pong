@@ -6,14 +6,13 @@ namespace Pong
 {
     public class Ball : GameObject
     {
+        protected Texture2D _texture;
+        protected Rectangle _drawRect;
         private Vector2 _velocity;
         private float _speed;
 
         public Ball(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
-            : base(game, graphics, spriteBatch)
-        {
-            Initialize();
-        }
+            : base(game, graphics, spriteBatch) { }
 
         override public void Initialize()
         {
