@@ -44,7 +44,7 @@ namespace Pong
             _court.Initialize();
 
             _ball = new Ball(this, _graphics, _spriteBatch);
-            _ball.Initialize();
+            _ball.Initialize(_court.width / 2, _court.height / 2);
 
             // Add callbacks
 

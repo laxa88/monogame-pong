@@ -14,13 +14,10 @@ namespace Pong
         public Ball(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
             : base(game, graphics, spriteBatch) { }
 
-        override public void Initialize()
+        public void Initialize(int x, int y)
         {
             _drawRect = new Rectangle(0, 0, 10, 10);
-            _position = new Vector2(
-                _graphics.PreferredBackBufferWidth / 2,
-                _graphics.PreferredBackBufferHeight / 2
-            );
+            _position = new Vector2(x, y);
             _velocity = new Vector2(1f, 1f);
             _speed = 300f;
 
