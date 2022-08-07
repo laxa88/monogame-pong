@@ -50,7 +50,7 @@ namespace Pong
             _court.Initialize();
 
             _ball = new Ball(this, _graphics, _spriteBatch);
-            _ball.Initialize(_court.width / 2, _court.height / 2);
+            _ball.Initialize(_court.width / 2, _court.height / 2, 20, 20);
             _ball.BallExitedLeft += OnLeftPlayerWin;
             _ball.BallExitedRight += OnRightPlayerWin;
 
