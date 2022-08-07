@@ -1,7 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace Pong
 {
@@ -20,9 +18,6 @@ namespace Pong
         {
             get { return _drawRect.Height; }
         }
-
-        public event EventHandler OnMoveUp;
-        public event EventHandler OnMoveDown;
 
         public Paddle(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
             : base(game, graphics, spriteBatch) { }
