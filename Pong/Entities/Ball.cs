@@ -23,7 +23,7 @@ namespace Pong
             _drawRect = new Rectangle(0, 0, 10, 10);
             _position = new Vector2(x, y);
             _direction = Vector2.Normalize(Vector2.One);
-            _speed = 0.15f;
+            _speed = 0.5f;
 
             LoadContent();
         }
