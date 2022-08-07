@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -20,6 +21,9 @@ namespace Pong
             get { return _drawRect.Height; }
         }
 
+        public event EventHandler OnMoveUp;
+        public event EventHandler OnMoveDown;
+
         public Paddle(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
             : base(game, graphics, spriteBatch) { }
 
@@ -35,20 +39,20 @@ namespace Pong
             _speed = 0.5f;
         }
 
-        public void Update(GameTime gameTime, Court court)
+        public void MoveUp(GameTime gameTime)
         {
-            var kstate = Keyboard.GetState();
+            _position.Y -= _speed * gameTime.ElapsedGameTime.Milliseconds;
 
-            if (kstate.IsKeyDown(Keys.Up))
-                _position.Y -= _speed * gameTime.ElapsedGameTime.Milliseconds;
+            if (_position.Y < 0f)
+                _position.Y = 0f;
+        }
 
-            if (kstate.IsKeyDown(Keys.Down))
-                _position.Y += _speed * gameTime.ElapsedGameTime.Milliseconds;
+        public void MoveDown(GameTime gameTime, Court court)
+        {
+            _position.Y += _speed * gameTime.ElapsedGameTime.Milliseconds;
 
             if (_position.Y > court.height - _drawRect.Height)
                 _position.Y = court.height - _drawRect.Height;
-            else if (_position.Y < 0f)
-                _position.Y = 0f;
         }
 
         override public void Draw(GameTime gameTime)

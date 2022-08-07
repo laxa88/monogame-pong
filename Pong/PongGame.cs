@@ -112,8 +112,20 @@ namespace Pong
                 Exit();
             }
 
-            _paddleLeft.Update(gameTime, _court);
-            _paddleRight.Update(gameTime, _court);
+            var kstate = Keyboard.GetState();
+
+            if (kstate.IsKeyDown(Keys.W))
+                _paddleLeft.MoveUp(gameTime);
+
+            if (kstate.IsKeyDown(Keys.S))
+                _paddleLeft.MoveDown(gameTime, _court);
+
+            if (kstate.IsKeyDown(Keys.Up))
+                _paddleRight.MoveUp(gameTime);
+
+            if (kstate.IsKeyDown(Keys.Down))
+                _paddleRight.MoveDown(gameTime, _court);
+
             _ball.Update(gameTime, _court);
 
             base.Update(gameTime);
