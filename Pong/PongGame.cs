@@ -104,15 +104,15 @@ namespace Pong
 
         protected override void Update(GameTime gameTime)
         {
+            var kstate = Keyboard.GetState();
+
             if (
                 GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
-                || Keyboard.GetState().IsKeyDown(Keys.Escape)
+                || kstate.IsKeyDown(Keys.Escape)
             )
             {
                 Exit();
             }
-
-            var kstate = Keyboard.GetState();
 
             if (kstate.IsKeyDown(Keys.W))
                 _paddleLeft.MoveUp(gameTime);
