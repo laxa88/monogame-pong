@@ -15,6 +15,8 @@ namespace Pong
 
         private Court _court;
         private Ball _ball;
+        private Paddle _paddleLeft;
+        private Paddle _paddleRight;
 
         public PongGame()
         {
@@ -51,6 +53,11 @@ namespace Pong
             _ball.Initialize(_court.width / 2, _court.height / 2);
             _ball.BallExitedLeft += OnLeftPlayerWin;
             _ball.BallExitedRight += OnRightPlayerWin;
+
+            _paddleLeft = new Paddle(this, _graphics, _spriteBatch);
+            _paddleLeft.Initialize(10, (_court.height / 2) - 50, 10, 100);
+            _paddleRight = new Paddle(this, _graphics, _spriteBatch);
+            _paddleRight.Initialize(_court.width - 20, (_court.height / 2) - 50, 10, 100);
 
             // Add callbacks
 
@@ -105,6 +112,8 @@ namespace Pong
                 Exit();
             }
 
+            _paddleLeft.Update(gameTime, _court);
+            _paddleRight.Update(gameTime, _court);
             _ball.Update(gameTime, _court);
 
             base.Update(gameTime);
@@ -119,6 +128,8 @@ namespace Pong
             // Draw everything game-related on this buffer screen.
             _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp);
             _court.Draw(gameTime);
+            _paddleLeft.Draw(gameTime);
+            _paddleRight.Draw(gameTime);
             _ball.Draw(gameTime);
             _spriteBatch.End();
 
