@@ -35,6 +35,8 @@ namespace Pong
             var data = new Color[1];
             data[0] = Color.White;
             _texture.SetData(data);
+
+            DrawStripesOnCourt();
         }
 
         /// <summary>
