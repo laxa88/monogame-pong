@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Pong
 {
@@ -36,7 +37,18 @@ namespace Pong
 
         public void Update(GameTime gameTime, Court court)
         {
-            //
+            var kstate = Keyboard.GetState();
+
+            if (kstate.IsKeyDown(Keys.Up))
+                _position.Y -= _speed * gameTime.ElapsedGameTime.Milliseconds;
+
+            if (kstate.IsKeyDown(Keys.Down))
+                _position.Y += _speed * gameTime.ElapsedGameTime.Milliseconds;
+
+            if (_position.Y > court.height - _drawRect.Height)
+                _position.Y = court.height - _drawRect.Height;
+            else if (_position.Y < 0f)
+                _position.Y = 0f;
         }
 
         override public void Draw(GameTime gameTime)
