@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -48,11 +49,23 @@ namespace Pong
 
             _ball = new Ball(this, _graphics, _spriteBatch);
             _ball.Initialize(_court.width / 2, _court.height / 2);
+            _ball.BallExitedLeft += OnLeftPlayerWin;
+            _ball.BallExitedRight += OnRightPlayerWin;
 
             // Add callbacks
 
             Window.ClientSizeChanged += OnWindowSizeChange;
             OnWindowSizeChange(null, null);
+        }
+
+        private void OnLeftPlayerWin(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Left player win");
+        }
+
+        private void OnRightPlayerWin(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Right player win");
         }
 
         private void OnWindowSizeChange(object sender, EventArgs e)

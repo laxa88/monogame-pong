@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -10,6 +11,9 @@ namespace Pong
         protected Rectangle _drawRect;
         private Vector2 _direction;
         private float _speed;
+
+        public event EventHandler BallExitedLeft;
+        public event EventHandler BallExitedRight;
 
         public Ball(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
             : base(game, graphics, spriteBatch) { }
@@ -72,8 +76,24 @@ namespace Pong
             );
             _position += velocity;
 
-            if (_position.X > court.width - _texture.Width / 2 || _position.X < _texture.Width / 2)
+            if (_position.X > court.width - _texture.Width / 2)
+            {
                 _direction.X *= -1;
+
+                if (BallExitedRight != null)
+                {
+                    BallExitedRight(this, EventArgs.Empty);
+                }
+            }
+            else if (_position.X < _texture.Width / 2)
+            {
+                _direction.X *= -1;
+
+                if (BallExitedLeft != null)
+                {
+                    BallExitedLeft(this, EventArgs.Empty);
+                }
+            }
 
             if (
                 _position.Y > court.height - _texture.Height / 2
