@@ -55,7 +55,7 @@ namespace Pong
                 _spriteBatch.Draw(
                     _texture,
                     new Rectangle(
-                        _renderTarget.Width / 2,
+                        _renderTarget.Width / 2 - 1,
                         i * _renderTarget.Height / 31,
                         2,
                         _renderTarget.Height / 62
