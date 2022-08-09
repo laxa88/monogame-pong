@@ -11,7 +11,7 @@ This is a Monogame "Hello World" project, structured VS code environment.
 - Ball
   - [x] ball constantly moves
   - [x] ball bounces off all sides of screen
-  - [ ] ball bounces off paddle depending on angle from center
+  - [x] ball bounces off paddle
 
 - Paddle
   - [x] paddle only moves up and down
