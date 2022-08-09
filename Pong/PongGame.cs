@@ -17,6 +17,7 @@ namespace Pong
         private Ball _ball;
         private Paddle _paddleLeft;
         private Paddle _paddleRight;
+        private Score _score;
 
         public PongGame()
         {
@@ -59,6 +60,9 @@ namespace Pong
             _paddleRight = new Paddle(this, _graphics, _spriteBatch);
             _paddleRight.Initialize(_court.width - 20, (_court.height / 2) - 50, 10, 100);
 
+            _score = new Score(this, _graphics, _spriteBatch);
+            _score.Initialize();
+
             // Add callbacks
 
             Window.ClientSizeChanged += OnWindowSizeChange;
@@ -68,11 +72,13 @@ namespace Pong
         private void OnLeftPlayerWin(object sender, EventArgs e)
         {
             Debug.WriteLine("Left player win");
+            _score.AddScore(1);
         }
 
         private void OnRightPlayerWin(object sender, EventArgs e)
         {
             Debug.WriteLine("Right player win");
+            _score.AddScore(2);
         }
 
         private void OnWindowSizeChange(object sender, EventArgs e)
@@ -143,6 +149,7 @@ namespace Pong
             _paddleLeft.Draw(gameTime);
             _paddleRight.Draw(gameTime);
             _ball.Draw(gameTime);
+            _score.Draw(gameTime, _court);
             _spriteBatch.End();
 
             // Target main window, reset background colour

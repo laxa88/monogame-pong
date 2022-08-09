@@ -19,6 +19,7 @@ This is a Monogame "Hello World" project, structured VS code environment.
   - [x] paddle can be controlled by 2 players
 
 - Round Start
+  - [x] draw score
   - [ ] (get ready) pause game at round start
   - [ ] (round start) unpause game after 2 seconds
 
