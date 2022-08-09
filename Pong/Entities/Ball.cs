@@ -11,6 +11,19 @@ namespace Pong
         private Vector2 _direction;
         private float _speed;
 
+        public Rectangle hitbox
+        {
+            get
+            {
+                return new Rectangle(
+                    (int)_position.X,
+                    (int)_position.Y,
+                    _drawRect.Width,
+                    _drawRect.Height
+                );
+            }
+        }
+
         public event EventHandler BallExitedLeft;
         public event EventHandler BallExitedRight;
 
@@ -32,7 +45,17 @@ namespace Pong
             _texture = this.Game.Content.Load<Texture2D>("ball");
         }
 
-        public void Update(GameTime gameTime, Court court)
+        private bool isCollide(Rectangle r1, Rectangle r2)
+        {
+            return (
+                r1.X < r2.X + r2.Width
+                && r1.X + r1.Width > r2.X
+                && r1.Y < r2.Y + r2.Height
+                && r1.Y + r1.Height > r2.Y
+            );
+        }
+
+        public void Update(GameTime gameTime, Court court, Paddle paddleLeft, Paddle paddleRight)
         {
             Vector2 velocity = new Vector2(
                 _direction.X * _speed * gameTime.ElapsedGameTime.Milliseconds,
@@ -40,7 +63,7 @@ namespace Pong
             );
             _position += velocity;
 
-            if (_position.X > court.width - _drawRect.Width / 2)
+            if (_position.X > court.width - _drawRect.Width)
             {
                 _direction.X *= -1;
 
@@ -49,7 +72,7 @@ namespace Pong
                     BallExitedRight(this, EventArgs.Empty);
                 }
             }
-            else if (_position.X < _drawRect.Width / 2)
+            else if (_position.X < 0)
             {
                 _direction.X *= -1;
 
@@ -60,9 +83,14 @@ namespace Pong
             }
 
             if (
-                _position.Y > court.height - _drawRect.Height / 2
-                || _position.Y < _drawRect.Height / 2
+                isCollide(this.hitbox, paddleLeft.hitbox)
+                || isCollide(this.hitbox, paddleRight.hitbox)
             )
+            {
+                _direction.X *= -1;
+            }
+
+            if (_position.Y > court.height - _drawRect.Height || _position.Y < 0)
             {
                 _direction.Y *= -1;
             }
@@ -70,21 +98,7 @@ namespace Pong
 
         override public void Draw(GameTime gameTime)
         {
-            _spriteBatch.Draw(
-                _texture,
-                new Rectangle(
-                    (int)_position.X,
-                    (int)_position.Y,
-                    _drawRect.Width,
-                    _drawRect.Height
-                ),
-                null,
-                Color.White,
-                0f,
-                new Vector2(_texture.Width / 2, _texture.Height / 2),
-                SpriteEffects.None,
-                0f
-            );
+            _spriteBatch.Draw(_texture, this.hitbox, null, Color.White);
         }
     }
 }

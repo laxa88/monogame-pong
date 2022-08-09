@@ -126,7 +126,7 @@ namespace Pong
             if (kstate.IsKeyDown(Keys.Down))
                 _paddleRight.MoveDown(gameTime, _court);
 
-            _ball.Update(gameTime, _court);
+            _ball.Update(gameTime, _court, _paddleLeft, _paddleRight);
 
             base.Update(gameTime);
         }

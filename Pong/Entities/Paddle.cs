@@ -19,6 +19,19 @@ namespace Pong
             get { return _drawRect.Height; }
         }
 
+        public Rectangle hitbox
+        {
+            get
+            {
+                return new Rectangle(
+                    (int)_position.X,
+                    (int)_position.Y,
+                    _drawRect.Width,
+                    _drawRect.Height
+                );
+            }
+        }
+
         public Paddle(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
             : base(game, graphics, spriteBatch) { }
 
@@ -52,7 +65,7 @@ namespace Pong
 
         override public void Draw(GameTime gameTime)
         {
-            _spriteBatch.Draw(_texture, _position, _drawRect, Color.White);
+            _spriteBatch.Draw(_texture, this.hitbox, null, Color.White);
         }
     }
 }
