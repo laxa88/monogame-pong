@@ -44,9 +44,9 @@ namespace Pong
                     instance._game.Content.Load<SoundEffect>(filename)
                 );
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
-                Debug.Print($"Failed to load {filename}: ", e.Message);
+                Debug.Print($"Duplicate SFX file loaded: {filename}");
             }
         }
 
