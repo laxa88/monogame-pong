@@ -30,8 +30,8 @@ This is a Monogame "Hello World" project, structured VS code environment.
   - [ ] reset to Round Start
 
 - Sound
-  - [ ] Play sound when ball hits wall
-  - [ ] Play sound when ball hits paddle
+  - [x] Play sound when ball hits wall
+  - [x] Play sound when ball hits paddle
   - [ ] Play jingle when round ends
 
 ## Compilation

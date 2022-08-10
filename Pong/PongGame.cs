@@ -39,6 +39,8 @@ namespace Pong
             Window.Title = "My Pong Game";
 
             // Initialize variables first
+            Sound.Initialize(this);
+
             _graphics.PreferredBackBufferWidth = 1280;
             _graphics.PreferredBackBufferHeight = 720;
             _graphics.IsFullScreen = false;

@@ -43,6 +43,7 @@ namespace Pong
         override protected void LoadContent()
         {
             _texture = this.Game.Content.Load<Texture2D>("ball");
+            Sound.LoadSoundEffect(Constants.SFX_BOUNCE);
         }
 
         private bool isCollide(Rectangle r1, Rectangle r2)
@@ -65,6 +66,7 @@ namespace Pong
 
             if (_position.X > court.width - _drawRect.Width)
             {
+                Sound.PlaySfx(Constants.SFX_BOUNCE);
                 _direction.X *= -1;
 
                 if (BallExitedRight != null)
@@ -74,6 +76,7 @@ namespace Pong
             }
             else if (_position.X < 0)
             {
+                Sound.PlaySfx(Constants.SFX_BOUNCE);
                 _direction.X *= -1;
 
                 if (BallExitedLeft != null)
@@ -87,11 +90,13 @@ namespace Pong
                 || isCollide(this.hitbox, paddleRight.hitbox)
             )
             {
+                Sound.PlaySfx(Constants.SFX_BOUNCE);
                 _direction.X *= -1;
             }
 
             if (_position.Y > court.height - _drawRect.Height || _position.Y < 0)
             {
+                Sound.PlaySfx(Constants.SFX_BOUNCE);
                 _direction.Y *= -1;
             }
         }
