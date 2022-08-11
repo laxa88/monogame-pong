@@ -1,33 +1,35 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq.Expressions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Media;
 
 namespace Pong
 {
-    public class Sound
+    public class Music
     {
-        private static Sound _instance;
-        public static Sound instance
+        private static Music _instance;
+        public static Music instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    _instance = new Sound();
+                    _instance = new Music();
                 }
                 return _instance;
             }
         }
 
-        private Dictionary<string, SoundEffect> _soundEffects;
+        private Dictionary<string, Song> _songs;
         private Game _game;
 
-        public Sound()
+        public Music()
         {
-            _soundEffects = new Dictionary<string, SoundEffect>();
+            _songs = new Dictionary<string, Song>();
         }
 
         public static void Initialize(Game game)
@@ -35,18 +37,15 @@ namespace Pong
             instance._game = game;
         }
 
-        public static void LoadSoundEffect(string filename)
+        public static void LoadMusic(string filename)
         {
             try
             {
-                instance._soundEffects.Add(
-                    filename,
-                    instance._game.Content.Load<SoundEffect>(filename)
-                );
+                instance._songs.Add(filename, instance._game.Content.Load<Song>(filename));
             }
             catch (ArgumentException)
             {
-                Debug.Print($"Duplicate SFX file loaded: {filename}");
+                Debug.Print($"Duplicate music file loaded: {filename}");
             }
             catch (ContentLoadException)
             {
@@ -54,9 +53,10 @@ namespace Pong
             }
         }
 
-        public static void PlaySfx(string filename)
+        public static void PlayMusic(string filename, bool repeat = false)
         {
-            instance._soundEffects[filename].CreateInstance().Play();
+            MediaPlayer.Play(instance._songs[filename]);
+            MediaPlayer.IsRepeating = repeat;
         }
     }
 }

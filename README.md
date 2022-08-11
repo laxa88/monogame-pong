@@ -2,6 +2,11 @@
 
 This is a Monogame "Hello World" project, structured VS code environment.
 
+## Resources
+
+- BGM: https://crossedkiller.itch.io/forest-hopper
+- SFX: randomly generated from https://sfxr.me/ (alternatively, https://www.bfxr.net/)
+
 ## To-dos
 
 - Background (stripes)
@@ -32,7 +37,8 @@ This is a Monogame "Hello World" project, structured VS code environment.
 - Sound
   - [x] Play sound when ball hits wall
   - [x] Play sound when ball hits paddle
-  - [ ] Play jingle when round ends
+  - [x] Play BGM
+  - [ ] Play sound when round ends
 
 ## Compilation
 

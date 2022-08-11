@@ -40,6 +40,9 @@ namespace Pong
 
             // Initialize variables first
             Sound.Initialize(this);
+            Music.Initialize(this);
+            Music.LoadMusic(Constants.BGM);
+            Music.PlayMusic(Constants.BGM, true);
 
             _graphics.PreferredBackBufferWidth = 1280;
             _graphics.PreferredBackBufferHeight = 720;
