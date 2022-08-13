@@ -2,6 +2,8 @@
 
 This is a Monogame "Hello World" project, structured VS code environment.
 
+![img](./screenshot-pong.png)
+
 ## Resources
 
 - BGM: https://crossedkiller.itch.io/forest-hopper
