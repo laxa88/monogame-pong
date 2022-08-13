@@ -13,6 +13,12 @@ namespace Pong
         GAME_END
     }
 
+    enum LastWinner
+    {
+        LEFT,
+        RIGHT
+    }
+
     public class PongGame : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -27,6 +33,7 @@ namespace Pong
         private Score _score;
         private GameState _gameState;
         private float _readyTimeout;
+        private LastWinner _lastWinner;
 
         public PongGame()
         {
@@ -94,6 +101,8 @@ namespace Pong
             _score = new Score(this, _graphics, _spriteBatch);
             _score.Initialize();
 
+            _lastWinner = LastWinner.LEFT;
+
             // Add callbacks
 
             Window.ClientSizeChanged += OnWindowSizeChange;
@@ -107,7 +116,16 @@ namespace Pong
         {
             _gameState = GameState.GAME_READY;
             _readyTimeout = 2000f;
-            _ball.Reset();
+
+            if (_lastWinner == LastWinner.LEFT)
+            {
+                _ball.Reset(-1);
+            }
+            else
+            {
+                _ball.Reset(1);
+            }
+
             _paddleLeft.Reset();
             _paddleRight.Reset();
         }
@@ -127,12 +145,14 @@ namespace Pong
 
         private void OnLeftPlayerWin(object sender, EventArgs e)
         {
+            _lastWinner = LastWinner.LEFT;
             _score.AddScore(1);
             EndGame();
         }
 
         private void OnRightPlayerWin(object sender, EventArgs e)
         {
+            _lastWinner = LastWinner.RIGHT;
             _score.AddScore(2);
             EndGame();
         }

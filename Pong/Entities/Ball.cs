@@ -116,10 +116,12 @@ namespace Pong
         /// <summary>
         /// Resets the ball position and speed. Does not change active state.
         /// </summary>
-        public void Reset()
+        public void Reset(int direction)
         {
             _position = _initialPosition;
-            _direction = Vector2.Normalize(Vector2.One); // TODO: randomize direction
+
+            _direction = Vector2.Normalize(new Vector2(direction, 1)); // TODO: randomize direction
+
             _speed = _initialSpeed;
         }
     }
