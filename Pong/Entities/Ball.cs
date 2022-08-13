@@ -37,7 +37,7 @@ namespace Pong
         {
             _drawRect = new Rectangle(0, 0, w, h);
             _initialPosition = new Vector2(x, y);
-            _initialSpeed = 0.2f;
+            _initialSpeed = 0.4f;
 
             LoadContent();
         }

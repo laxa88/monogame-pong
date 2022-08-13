@@ -67,14 +67,29 @@ namespace Pong
             _court.Initialize();
 
             _ball = new Ball(this, _graphics, _spriteBatch);
-            _ball.Initialize(_court.width / 2 - 10, _court.height / 2 - 10, 20, 20);
+            _ball.Initialize(
+                _court.width / 2 - Constants.BALL_SIZE / 2,
+                _court.height / 2 - Constants.BALL_SIZE / 2,
+                Constants.BALL_SIZE,
+                Constants.BALL_SIZE
+            );
             _ball.BallExitedLeft += OnLeftPlayerWin;
             _ball.BallExitedRight += OnRightPlayerWin;
 
             _paddleLeft = new Paddle(this, _graphics, _spriteBatch);
-            _paddleLeft.Initialize(10, (_court.height / 2) - 50, 10, 100);
+            _paddleLeft.Initialize(
+                10,
+                (_court.height / 2) - Constants.PADDLE_LENGTH / 2,
+                10,
+                Constants.PADDLE_LENGTH
+            );
             _paddleRight = new Paddle(this, _graphics, _spriteBatch);
-            _paddleRight.Initialize(_court.width - 20, (_court.height / 2) - 50, 10, 100);
+            _paddleRight.Initialize(
+                _court.width - 20,
+                (_court.height / 2) - Constants.PADDLE_LENGTH / 2,
+                10,
+                Constants.PADDLE_LENGTH
+            );
 
             _score = new Score(this, _graphics, _spriteBatch);
             _score.Initialize();
