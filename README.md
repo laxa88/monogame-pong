@@ -22,23 +22,24 @@ This is a Monogame "Hello World" project, structured VS code environment.
   - [x] paddle only moves up and down
   - [x] paddle must not move out of screen
   - [x] paddle can be controlled by 2 players
+  - [ ] fix sticky collisions
 
 - Round Start
   - [x] draw score
-  - [ ] (get ready) pause game at round start
-  - [ ] (round start) unpause game after 2 seconds
+  - [x] (get ready) pause game at round start
+  - [x] (round start) unpause game after 2 seconds
 
 - Round End
-  - [ ] round ends when ball touches left or right side
-  - [ ] calculate score
-  - [ ] play end-round sound
-  - [ ] reset to Round Start
+  - [x] round ends when ball touches left or right side
+  - [x] calculate score
+  - [x] play end-round sound
+  - [x] reset to Round Start
 
 - Sound
   - [x] Play sound when ball hits wall
   - [x] Play sound when ball hits paddle
   - [x] Play BGM
-  - [ ] Play sound when round ends
+  - [x] Play sound when round ends
 
 ## Compilation
 

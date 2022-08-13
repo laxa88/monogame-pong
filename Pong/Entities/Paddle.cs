@@ -5,6 +5,8 @@ namespace Pong
 {
     public class Paddle : GameObject
     {
+        private Vector2 _initialPosition;
+
         protected Texture2D _texture;
         protected Rectangle _drawRect;
         private float _speed;
@@ -43,7 +45,7 @@ namespace Pong
             _texture.SetData(data);
 
             _drawRect = new Rectangle(0, 0, w, h);
-            _position = new Vector2(x, y);
+            _initialPosition = new Vector2(x, y);
             _speed = 0.5f;
         }
 
@@ -66,6 +68,11 @@ namespace Pong
         override public void Draw(GameTime gameTime)
         {
             _spriteBatch.Draw(_texture, this.hitbox, null, Color.White);
+        }
+
+        public void Reset()
+        {
+            _position = _initialPosition;
         }
     }
 }

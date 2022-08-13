@@ -37,6 +37,12 @@
 /processorParam:Quality=Best
 /build:bounce.wav
 
+#begin round-end.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:round-end.wav
+
 #begin score.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

@@ -6,6 +6,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Pong
 {
+    enum GameState
+    {
+        GAME_READY,
+        GAME_ACTIVE,
+        GAME_END
+    }
+
     public class PongGame : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -18,6 +25,8 @@ namespace Pong
         private Paddle _paddleLeft;
         private Paddle _paddleRight;
         private Score _score;
+        private GameState _gameState;
+        private float _readyTimeout;
 
         public PongGame()
         {
@@ -40,6 +49,8 @@ namespace Pong
 
             // Initialize variables first
             Sound.Initialize(this);
+            Sound.LoadSoundEffect(Constants.SFX_ROUND_END);
+
             Music.Initialize(this);
             Music.LoadMusic(Constants.BGM);
             Music.PlayMusic(Constants.BGM, true);
@@ -72,18 +83,43 @@ namespace Pong
 
             Window.ClientSizeChanged += OnWindowSizeChange;
             OnWindowSizeChange(null, null);
+
+            // Start game
+            ResetGame();
+        }
+
+        private void ResetGame()
+        {
+            _gameState = GameState.GAME_READY;
+            _readyTimeout = 2000f;
+            _ball.Reset();
+            _paddleLeft.Reset();
+            _paddleRight.Reset();
+        }
+
+        private void StartGame()
+        {
+            _gameState = GameState.GAME_ACTIVE;
+            _readyTimeout = 0f;
+            _ball.Activate();
+        }
+
+        private void EndGame()
+        {
+            _gameState = GameState.GAME_END;
+            Sound.PlaySfx(Constants.SFX_ROUND_END);
         }
 
         private void OnLeftPlayerWin(object sender, EventArgs e)
         {
-            Debug.WriteLine("Left player win");
             _score.AddScore(1);
+            EndGame();
         }
 
         private void OnRightPlayerWin(object sender, EventArgs e)
         {
-            Debug.WriteLine("Right player win");
             _score.AddScore(2);
+            EndGame();
         }
 
         private void OnWindowSizeChange(object sender, EventArgs e)
@@ -113,6 +149,21 @@ namespace Pong
             // should be invoked within themselves whenever necessary.
         }
 
+        private void UpdatePaddles(KeyboardState kstate, GameTime gameTime)
+        {
+            if (kstate.IsKeyDown(Keys.W))
+                _paddleLeft.MoveUp(gameTime);
+
+            if (kstate.IsKeyDown(Keys.S))
+                _paddleLeft.MoveDown(gameTime, _court);
+
+            if (kstate.IsKeyDown(Keys.Up))
+                _paddleRight.MoveUp(gameTime);
+
+            if (kstate.IsKeyDown(Keys.Down))
+                _paddleRight.MoveDown(gameTime, _court);
+        }
+
         protected override void Update(GameTime gameTime)
         {
             var kstate = Keyboard.GetState();
@@ -125,19 +176,27 @@ namespace Pong
                 Exit();
             }
 
-            if (kstate.IsKeyDown(Keys.W))
-                _paddleLeft.MoveUp(gameTime);
+            switch (_gameState)
+            {
+                case GameState.GAME_READY:
+                    _readyTimeout -= +gameTime.ElapsedGameTime.Milliseconds;
+                    if (_readyTimeout <= 0)
+                    {
+                        StartGame();
+                    }
+                    UpdatePaddles(kstate, gameTime);
+                    break;
 
-            if (kstate.IsKeyDown(Keys.S))
-                _paddleLeft.MoveDown(gameTime, _court);
+                case GameState.GAME_ACTIVE:
+                    UpdatePaddles(kstate, gameTime);
+                    _ball.Update(gameTime, _court, _paddleLeft, _paddleRight);
+                    break;
 
-            if (kstate.IsKeyDown(Keys.Up))
-                _paddleRight.MoveUp(gameTime);
-
-            if (kstate.IsKeyDown(Keys.Down))
-                _paddleRight.MoveDown(gameTime, _court);
-
-            _ball.Update(gameTime, _court, _paddleLeft, _paddleRight);
+                case GameState.GAME_END:
+                default:
+                    ResetGame();
+                    break;
+            }
 
             base.Update(gameTime);
         }

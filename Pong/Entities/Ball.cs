@@ -6,6 +6,9 @@ namespace Pong
 {
     public class Ball : GameObject
     {
+        private Vector2 _initialPosition;
+        private float _initialSpeed;
+
         protected Texture2D _texture;
         protected Rectangle _drawRect;
         private Vector2 _direction;
@@ -33,9 +36,8 @@ namespace Pong
         public void Initialize(int x, int y, int w, int h)
         {
             _drawRect = new Rectangle(0, 0, w, h);
-            _position = new Vector2(x, y);
-            _direction = Vector2.Normalize(Vector2.One);
-            _speed = 0.2f;
+            _initialPosition = new Vector2(x, y);
+            _initialSpeed = 0.2f;
 
             LoadContent();
         }
@@ -58,14 +60,20 @@ namespace Pong
 
         public void Update(GameTime gameTime, Court court, Paddle paddleLeft, Paddle paddleRight)
         {
+            if (!_active)
+            {
+                return;
+            }
+
             Vector2 velocity = new Vector2(
                 _direction.X * _speed * gameTime.ElapsedGameTime.Milliseconds,
                 _direction.Y * _speed * gameTime.ElapsedGameTime.Milliseconds
             );
             _position += velocity;
 
-            if (_position.X > court.width - _drawRect.Width)
+            if (_position.X > court.width)
             {
+                Deactivate();
                 Sound.PlaySfx(Constants.SFX_BOUNCE);
                 _direction.X *= -1;
 
@@ -74,8 +82,9 @@ namespace Pong
                     BallExitedRight(this, EventArgs.Empty);
                 }
             }
-            else if (_position.X < 0)
+            else if (_position.X < 0 - _drawRect.Width)
             {
+                Deactivate();
                 Sound.PlaySfx(Constants.SFX_BOUNCE);
                 _direction.X *= -1;
 
@@ -84,8 +93,7 @@ namespace Pong
                     BallExitedLeft(this, EventArgs.Empty);
                 }
             }
-
-            if (
+            else if (
                 isCollide(this.hitbox, paddleLeft.hitbox)
                 || isCollide(this.hitbox, paddleRight.hitbox)
             )
@@ -93,8 +101,7 @@ namespace Pong
                 Sound.PlaySfx(Constants.SFX_BOUNCE);
                 _direction.X *= -1;
             }
-
-            if (_position.Y > court.height - _drawRect.Height || _position.Y < 0)
+            else if (_position.Y > court.height - _drawRect.Height || _position.Y < 0)
             {
                 Sound.PlaySfx(Constants.SFX_BOUNCE);
                 _direction.Y *= -1;
@@ -104,6 +111,16 @@ namespace Pong
         override public void Draw(GameTime gameTime)
         {
             _spriteBatch.Draw(_texture, this.hitbox, null, Color.White);
+        }
+
+        /// <summary>
+        /// Resets the ball position and speed. Does not change active state.
+        /// </summary>
+        public void Reset()
+        {
+            _position = _initialPosition;
+            _direction = Vector2.Normalize(Vector2.One); // TODO: randomize direction
+            _speed = _initialSpeed;
         }
     }
 }
