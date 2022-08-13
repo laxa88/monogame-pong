@@ -120,7 +120,12 @@ namespace Pong
         {
             _position = _initialPosition;
 
-            _direction = Vector2.Normalize(new Vector2(direction, 1)); // TODO: randomize direction
+            double angle = new Random().NextDouble();
+            var newDirection = new Vector2(
+                (float)(Math.Cos(angle) * (double)direction),
+                (float)(Math.Sin(angle * 2.0 - 1.0))
+            );
+            _direction = Vector2.Normalize(newDirection);
 
             _speed = _initialSpeed;
         }

@@ -90,6 +90,7 @@ namespace Pong
                 10,
                 Constants.PADDLE_LENGTH
             );
+            _paddleLeft.Reset();
             _paddleRight = new Paddle(this, _graphics, _spriteBatch);
             _paddleRight.Initialize(
                 _court.width - 20,
@@ -97,6 +98,7 @@ namespace Pong
                 10,
                 Constants.PADDLE_LENGTH
             );
+            _paddleRight.Reset();
 
             _score = new Score(this, _graphics, _spriteBatch);
             _score.Initialize();
@@ -125,9 +127,6 @@ namespace Pong
             {
                 _ball.Reset(1);
             }
-
-            _paddleLeft.Reset();
-            _paddleRight.Reset();
         }
 
         private void StartGame()
