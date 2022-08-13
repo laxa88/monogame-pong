@@ -22,7 +22,7 @@ This is a Monogame "Hello World" project, structured VS code environment.
   - [x] paddle only moves up and down
   - [x] paddle must not move out of screen
   - [x] paddle can be controlled by 2 players
-  - [ ] fix sticky collisions
+  - [x] fix sticky collisions
 
 - Round Start
   - [x] draw score

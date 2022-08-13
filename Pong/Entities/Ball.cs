@@ -93,18 +93,27 @@ namespace Pong
                     BallExitedLeft(this, EventArgs.Empty);
                 }
             }
-            else if (
-                isCollide(this.hitbox, paddleLeft.hitbox)
-                || isCollide(this.hitbox, paddleRight.hitbox)
-            )
+
+            if (_direction.X < 0 && isCollide(this.hitbox, paddleLeft.hitbox))
             {
                 Sound.PlaySfx(Constants.SFX_BOUNCE);
-                _direction.X *= -1;
+                _direction.X = Math.Abs(_direction.X);
             }
-            else if (_position.Y > court.height - _drawRect.Height || _position.Y < 0)
+            else if (_direction.X > 0 && isCollide(this.hitbox, paddleRight.hitbox))
             {
                 Sound.PlaySfx(Constants.SFX_BOUNCE);
-                _direction.Y *= -1;
+                _direction.X = -Math.Abs(_direction.X);
+            }
+
+            if (_direction.Y < 0 && _position.Y < 0)
+            {
+                Sound.PlaySfx(Constants.SFX_BOUNCE);
+                _direction.Y = Math.Abs(_direction.Y);
+            }
+            else if (_direction.Y > 0 && _position.Y > court.height - _drawRect.Height)
+            {
+                Sound.PlaySfx(Constants.SFX_BOUNCE);
+                _direction.Y = -Math.Abs(_direction.Y);
             }
         }
 
