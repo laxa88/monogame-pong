@@ -8,6 +8,7 @@ This is a Monogame "Hello World" project, structured VS code environment.
 
 - BGM: https://crossedkiller.itch.io/forest-hopper
 - SFX: randomly generated from https://sfxr.me/ (alternatively, https://www.bfxr.net/)
+- Font: https://www.dafont.com/gamer-2.font
 
 ## To-dos
 
