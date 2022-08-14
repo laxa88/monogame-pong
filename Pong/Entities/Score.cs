@@ -11,8 +11,7 @@ namespace Pong
         private int _scoreLeft;
         private int _scoreRight;
 
-        public Score(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
-            : base(game, graphics, spriteBatch) { }
+        public Score(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch) { }
 
         override public void Initialize()
         {

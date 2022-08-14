@@ -18,13 +18,8 @@ namespace Pong
             get { return _renderTarget.Height; }
         }
 
-        public Court(
-            Game game,
-            GraphicsDeviceManager graphics,
-            SpriteBatch spriteBatch,
-            int width,
-            int height
-        ) : base(game, graphics, spriteBatch)
+        public Court(Game game, SpriteBatch spriteBatch, int width, int height)
+            : base(game, spriteBatch)
         {
             _renderTarget = new RenderTarget2D(GraphicsDevice, width, height);
         }

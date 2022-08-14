@@ -5,15 +5,12 @@ namespace Pong
 {
     public class GameObject : DrawableGameComponent
     {
-        protected GraphicsDeviceManager _graphics;
         protected SpriteBatch _spriteBatch;
         protected Vector2 _position;
         protected bool _active;
 
-        public GameObject(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
-            : base(game)
+        public GameObject(Game game, SpriteBatch spriteBatch) : base(game)
         {
-            _graphics = graphics;
             _spriteBatch = spriteBatch;
         }
 

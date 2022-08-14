@@ -34,8 +34,7 @@ namespace Pong
             }
         }
 
-        public Paddle(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
-            : base(game, graphics, spriteBatch) { }
+        public Paddle(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch) { }
 
         public void Initialize(int x, int y, int w, int h)
         {

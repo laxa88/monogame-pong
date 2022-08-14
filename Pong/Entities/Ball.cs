@@ -30,8 +30,7 @@ namespace Pong
         public event EventHandler BallExitedLeft;
         public event EventHandler BallExitedRight;
 
-        public Ball(Game game, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
-            : base(game, graphics, spriteBatch) { }
+        public Ball(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch) { }
 
         public void Initialize(int x, int y, int w, int h)
         {

@@ -38,7 +38,7 @@ namespace Pong
         public PongGame()
         {
             _graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+            this.Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
             Window.AllowUserResizing = true;
@@ -70,10 +70,10 @@ namespace Pong
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _renderBuffer = new RenderTarget2D(GraphicsDevice, 640, 480);
 
-            _court = new Court(this, _graphics, _spriteBatch, 640, 480);
+            _court = new Court(this, _spriteBatch, 640, 480);
             _court.Initialize();
 
-            _ball = new Ball(this, _graphics, _spriteBatch);
+            _ball = new Ball(this, _spriteBatch);
             _ball.Initialize(
                 _court.width / 2 - Constants.BALL_SIZE / 2,
                 _court.height / 2 - Constants.BALL_SIZE / 2,
@@ -83,7 +83,7 @@ namespace Pong
             _ball.BallExitedLeft += OnLeftPlayerWin;
             _ball.BallExitedRight += OnRightPlayerWin;
 
-            _paddleLeft = new Paddle(this, _graphics, _spriteBatch);
+            _paddleLeft = new Paddle(this, _spriteBatch);
             _paddleLeft.Initialize(
                 10,
                 (_court.height / 2) - Constants.PADDLE_LENGTH / 2,
@@ -91,7 +91,7 @@ namespace Pong
                 Constants.PADDLE_LENGTH
             );
             _paddleLeft.Reset();
-            _paddleRight = new Paddle(this, _graphics, _spriteBatch);
+            _paddleRight = new Paddle(this, _spriteBatch);
             _paddleRight.Initialize(
                 _court.width - 20,
                 (_court.height / 2) - Constants.PADDLE_LENGTH / 2,
@@ -100,7 +100,7 @@ namespace Pong
             );
             _paddleRight.Reset();
 
-            _score = new Score(this, _graphics, _spriteBatch);
+            _score = new Score(this, _spriteBatch);
             _score.Initialize();
 
             _lastWinner = LastWinner.LEFT;
